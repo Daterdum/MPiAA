@@ -1,3 +1,7 @@
+from timer import time_me
+from utils import random_ints, empty_gen
+
+
 class TreeNode:
 
     def __init__(self, value=None, left=None, right=None, parent=None):
@@ -97,12 +101,15 @@ class Set:
 
 def main():
     set = Set()
-    set.insert(10, 5, 12, 3, 7, 14, 6, 9)
+    time_me("Insert", set.insert, ns=[10, 5, 12, 3, 7, 14, 6, 9], generator=empty_gen, repeats=10)
+    # set.insert(10, 5, 12, 3, 7, 14, 6, 9)
+    print(set.root.value())
+    print(set.root.left_child.right_child.value())
     print(set.find(3))
     print(set.size())
     print('\ncalled delete')
     set.tree_delete()
-    print(set.root)
+    # print(set.root)
     # print(set.root.value())
     # print(set.root.left_child)
     # print(set.size())
