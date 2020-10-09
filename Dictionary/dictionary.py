@@ -12,21 +12,37 @@ class Dictionary:
         return abs(int(hash(key)//1e7))
 
     def set(self, key, value):
-        self.vector[self.hash_key(key=key)] = [key, value]
+        if self.vector[self.hash_key(key=key)] is None:
+            self.vector[self.hash_key(key=key)] = [key, value]
+        else:
+            if self.vector[self.hash_key(key=key)][0] == key:
+                self.vector[self.hash_key(key=key)][1] = value
+            else:
+                self.vector[self.hash_key(key=key)].append([key, value])
         # check if element with this key already exists,
         # check for collision
-        pass
 
     def get(self, key):
         return self.vector[self.hash_key(key=key)][1]
 
     def size(self):
-        pass
+        counter = 0
+        for element in self.vector:
+            if element is not None:
+                counter += 1
+        return counter
 
 
 def main():
-    print(abs(int(hash(None)//1e7)))
+    print(abs(int(hash("2")//1e7)))
     dictionary = Dictionary()
+    for i in range(10000):
+        dictionary.set(int(i), str(i))
+    dictionary.set("123", "qwe")
+    dictionary.set("123", "qwerty")
+    for element in dictionary.vector:
+        if element is not None:
+            print("element = ", element, "index = ", dictionary.vector.index(element))
 
 
 if __name__ == "__main__":
