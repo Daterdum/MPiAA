@@ -3,7 +3,6 @@ class Dictionary:
     def __init__(self, num_of_buckets=1000):
         self.num_of_buckets = num_of_buckets
         self.vector = [None] * self.num_of_buckets
-        print(type(self.vector))
 
     def __del__(self):
         pass
@@ -19,8 +18,6 @@ class Dictionary:
                 self.vector[self.hash_key(key=key)][1] = value
             else:
                 self.vector[self.hash_key(key=key)].append([key, value])
-        # check if element with this key already exists,
-        # check for collision
 
     def get(self, key):
         return self.vector[self.hash_key(key=key)][1]
@@ -34,16 +31,18 @@ class Dictionary:
 
 
 def main():
-    print(abs(int(hash("2")//1e7)))
     dictionary = Dictionary()
     for i in range(10000):
         dictionary.set(int(i), str(i))
     dictionary.set("123", "qwe")
     dictionary.set("123", "qwerty")
     for element in dictionary.vector:
-        if element is not None:
-            print("element = ", element, "index = ", dictionary.vector.index(element))
+        print(type(element))
+        # if element is not None:
+            # print("element = ", element[1], "index = ", element[0])
+            # print("element = ", element, "index = ", dictionary.vector.index(element))
 
 
 if __name__ == "__main__":
     main()
+""""""

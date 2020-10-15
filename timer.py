@@ -22,7 +22,7 @@ def time_us(functions, ns, generator, repeats=int(1e6)):
         times = []
         for key in keys:
             for num in data:
-                timer = timeit.Timer(lambda: functions[key](num))  # needs some work, works weirdly
+                timer = timeit.Timer(lambda: functions[key](num))  # works weird
                 times.append(timer.timeit(repeats))
             print(make_line(n, times))
 
