@@ -40,4 +40,5 @@ def random_strings(n, max_string_size=6):
 
 
 def empty_gen(n):
+    """empty generator returns list of given values for timer usage"""
     return [n]
