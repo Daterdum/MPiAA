@@ -1,5 +1,7 @@
-from timer import time_me
+from timer import time_me, custom_timer
 from utils import empty_gen, random_ints
+from datetime import datetime
+from random import randint
 
 
 class TreeNode:
@@ -23,12 +25,6 @@ class TreeNode:
 
     def right(self):
         return self.right_child
-
-    """def delete(self):  # probably deletes only references
-        del self.left_child
-        del self.right_child
-        del self.parent
-        del self._value"""
 
     def delete(self):  # sets None to attributes
         self.left_child = None
@@ -69,7 +65,7 @@ class Set:
             return False
         return self._find(searched_value, self.root)
 
-    def _find(self, searched_value, current_node=None):  # default current_node should be self.root
+    def _find(self, searched_value, current_node=None):
         if searched_value == current_node.value():
             return True
         if searched_value < current_node.value() and current_node.left() is not None:  # goes left
@@ -101,14 +97,12 @@ class Set:
 
 def main():
     set = Set()
-    print(set)
-    time_me("Insert", set.insert, ns=[10]*10, generator=random_ints, repeats=10000)
-    print(set.root.value())
-    print(set.find(3))
-    print(set.find(set.root.left().value()))
+    time_me("Insert", set.insert, ns=[10] * 10 ** 4 * 6, generator=random_ints)
+    start = datetime.now()
+    time_me("Find", set.find, ns=[10] * 10 ** 2 * 1, generator=random_ints, repeats=100)
+    end = datetime.now()
+    print(end - start)
     print(set.size())
-    print('called delete')
-    set.tree_delete()
 
 
 if __name__ == "__main__":

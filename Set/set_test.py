@@ -1,4 +1,4 @@
-from Set.set import Set, TreeNode
+from Set.set import Set
 import unittest
 
 
