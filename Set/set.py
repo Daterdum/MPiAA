@@ -101,6 +101,7 @@ class Set:
 
 def main():
     set = Set()
+    print(set)
     time_me("Insert", set.insert, ns=[10]*10, generator=random_ints, repeats=10000)
     print(set.root.value())
     print(set.find(3))
