@@ -27,10 +27,21 @@ def time_us(functions, ns, generator, repeats=int(1e6)):
             print(make_line(n, times))
 
 
-def time_me(func_name, function, ns, generator, repeats=int(1e6)):
+def time_me(func_name, function, ns, generator, repeats=1):
     """Prints time table for given function and inputs.
     function - func(input) - function to time,
     ns - list of n for which generate input,
     generator - func(n) - input generation function,
     repeats - number of times to call function for each given input."""
     time_us(functions={func_name: function}, ns=ns, generator=generator, repeats=repeats)
+
+
+def custom_timer(func_name, function, ns, generator, repeats=1):
+    print(make_header([func_name]))
+    for n in ns:
+        times = []
+        numbers = generator(n)
+        for number in numbers:
+            timer = timeit.Timer(lambda: function(number))
+            times.append(timer.timeit(repeats))
+        print(make_line(number, times))
