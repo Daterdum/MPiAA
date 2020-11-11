@@ -5,7 +5,7 @@ from utils import random_ints
 def count_sort(lst, min, max):
     """
     Puts number of occurrences of element in lst into counts[element + abs(min)]
-    indexes of elements move right by abs(min) so it could be possible to access negative elements by their index.
+    indexes of elements move right by abs(min) so it's possible to access negative elements by their index.
     """
     min = abs(min)
     counts = [0] * (max + min + 1)
