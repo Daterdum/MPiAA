@@ -1,4 +1,6 @@
 from math import sqrt, inf
+from random import randint
+import timeit
 
 
 def sort_points(points, func):
@@ -72,12 +74,26 @@ class Point:
         return self.y
 
 
+def point_generator(n, _min=-10000, _max=10000):
+    return [Point(randint(_min, _max), randint(_min, _max)) for i in range(n)]
+
+
+def naive_closest_pair(points):
+    min_dist = inf
+    for point in points:
+        for other_point in points:
+            distance = dist(point, other_point)
+            if distance < min_dist and point != other_point:
+                min_dist = distance
+                output = make_pair(point, other_point)
+    return output
+
+
 def main():
-    alist = [Point(-1, 20), Point(-1.5, 10), Point(-2, -10), Point(-2.7, -20),
-            Point(-10, 20), Point(-10.5, 10), Point(-11.7, -10), Point(-12.2, -20),
-            Point(1, 21), Point(1.5, 11), Point(2, -9), Point(2.7, -19),
-            Point(10, 21), Point(10.5, 11), Point(11.7, -9), Point(12.2, -19)]
-    print(closest_pair(alist))
+    t = timeit.Timer("closest_pair(point_generator(110))", setup="from __main__ import closest_pair, point_generator")
+    print("func Time = ", t.timeit(1))
+    t = timeit.Timer("naive_closest_pair(point_generator(110))", setup="from __main__ import naive_closest_pair, point_generator")
+    print("naive Time = ", t.timeit(1))
 
 
 if __name__ == "__main__":
