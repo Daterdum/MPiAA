@@ -1,6 +1,6 @@
 import tkinter as tk
 from json import load, dump
-from algorithm import shortest_route
+from algorithm import shortest_route, Node
 
 
 class Obstacles_GUI:
@@ -190,8 +190,8 @@ class GUI:
         self.frame = tk.Frame(self.master, relief=tk.RAISED, borderwidth=1)
         self.frame.pack(side=tk.LEFT)
         self._canvas_init()
-        self.r_frame = tk.Frame(self.master, relief=tk.RAISED, borderwidth=1)
-        self.r_frame.pack(side=tk.RIGHT)
+        self.r_frame = tk.Frame(self.master, relief=tk.RAISED, borderwidth=1, height=500, width=200)
+        self.r_frame.pack(side=tk.LEFT)
         self._do()
 
     def _build_menu(self):  # needs extension on save and upload scenarios
@@ -227,7 +227,16 @@ class GUI:
 
     def _do(self):
         button = tk.Button(self.r_frame, text="Do", command=self.__do, bg='green', height=30, width=50)
-        button.pack()
+        button.config(height=10, width=100)
+        button.pack(side=tk.BOTTOM)
+
+        s_button = tk.Button(self.r_frame, text="Save to file", command=self._save, bg='lightgray', height=30, width=50)
+        s_button.config(height=10, width=100)
+        s_button.pack(side=tk.TOP)
+
+        l_button = tk.Button(self.r_frame, text="Load from file", command=self._load, bg='lightgray', height=30, width=50)
+        l_button.config(height=10, width=100)
+        l_button.pack(side=tk.TOP)
 
     def __do(self):
         self.connector(size=500)
@@ -235,8 +244,24 @@ class GUI:
     def connector(self, size=500):
         obstacles = load(open('obstacles.json'))
         coordinates = load(open('input.json'))
-        end_route = shortest_route(coordinates, obstacles, size=size)
-        self.draw_scene(end_route, coordinates, obstacles)
+        self.end_route = shortest_route(coordinates, obstacles, size=size)
+        self.draw_scene(self.end_route, coordinates, obstacles)
+
+    def _save(self):
+        end_output = {}
+        for k in range(len(self.end_route)):
+            end_output.update({k: {'x': self.end_route[k].x, 'y': self.end_route[k].y}})
+        with open(file='savefile.json', mode='w') as f:
+            dump({'obstacles': load(open('obstacles.json')), 'coordinates': load(open('input.json')), 'end_route': end_output}, f)
+
+    def _load(self):
+        obstacles = load(open('savefile.json'))['obstacles']
+        coordinates = load(open('savefile.json'))['coordinates']
+        _route = load(open('savefile.json'))['end_route']
+        route = []
+        for node in _route.values():
+            route.append(Node(x=node['x'], y=node['y']))
+        self.draw_scene(route=route, coordinates=coordinates, obstacles=obstacles)
 
     def draw_circle(self, x, y, r, **kwargs):
         x = int(x)

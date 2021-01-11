@@ -57,14 +57,14 @@ def shortest_route(coordinates, obstacles, size=500):
                     return True
             mark = 0
             while (array[end[0]][end[1]].marker is None):
-                draw_markers()  # remove this
+                # draw_markers()  # show markers with each iteration
                 for line in array:
                     for element in line:
                         if element.marker == mark:
                             for neighbour in filter(_filter, element.neighbours.values()):
                                 if neighbour.marker is None and neighbour.is_empty:
                                     neighbour.marker = mark + 1
-                print('\n mark = {}\n'.format(mark))
+                # print('\n mark = {}\n'.format(mark)) # separates marking print cycle
                 mark += 1
 
         route_coordinates = []
@@ -72,7 +72,7 @@ def shortest_route(coordinates, obstacles, size=500):
 
         def route_back(point):
             """
-            Function for building route back from end to start according to markers
+            Function for building route back from end to start according to markers.
             """
             if not point.is_empty:
                 pass
@@ -83,6 +83,7 @@ def shortest_route(coordinates, obstacles, size=500):
                 route_coordinates.append(closest_neighbour)
                 route_back(closest_neighbour)
 
+        _indication(array)
         if array[end[1]][end[0]].marker is None:
             return [0]
         else:
@@ -125,7 +126,6 @@ def shortest_route(coordinates, obstacles, size=500):
     start_node = [int(int(coordinates['s_x']) / step), int(int(coordinates['s_y']) / step)]
     end_node = [int(int(coordinates['e_x']) / step), int(int(coordinates['e_y']) / step)]
     output = lee_algorithm(canvas_ar, start_node, end_node)
-    draw_markers()
     return output
 
 
@@ -133,7 +133,7 @@ class Node:
     """
     Class of objects used in creating graph for building shortest route.
     Contains information and references about its neighbours.
-    is_empty parameter shows if node contains obstacle or its part.
+    is_empty parameter shows if any obstacle collides with node.
     """
     def __init__(self, x, y, side=30, is_empty=False, top_nbr=None, bot_nbr=None, left_nbr=None, right_nbr=None):
         self.x = x
@@ -165,7 +165,32 @@ class Node:
 
 
 def main():
-    pass
+    print(shortest_route(coordinates={"s_x": "120",
+                                "s_y": "120",
+                                "e_x": "350",
+                                "e_y": "450",
+                                "size": "30"},
+                   obstacles={
+                                "1": {
+                                    "x": "250",
+                                    "y": "120",
+                                    "r": "40"
+                                },
+                                "2": {
+                                    "x": "10",
+                                    "y": "10",
+                                    "r": "20"
+                                },
+                                "3": {
+                                    "x": "10",
+                                    "y": "10",
+                                    "r": "20"
+                                },
+                                "4": {
+                                    "x": "10",
+                                    "y": "10",
+                                    "r": "20"
+                                }}))
 
 
 if __name__ == "__main__":
